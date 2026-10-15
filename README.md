@@ -32,6 +32,8 @@ make install
 
 `make install` builds the app, copies it to `/Applications`, and launches it.
 
+The build picks a macOS SDK that can compile the app. With only Command Line Tools, the macOS 27+ SDKs can't, because SwiftUI's `@State` macro plugin ships only with Xcode. In that case the build falls back to the newest older SDK you have installed. If none works, install Xcode. To force a specific SDK, run `make install SDK=/path/to/MacOSX26.5.sdk`.
+
 ### First run
 
 1. Click the Octocat icon. Settings opens because no org is set yet.
