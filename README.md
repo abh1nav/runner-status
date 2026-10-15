@@ -4,9 +4,41 @@ A macOS menu bar app that shows the self-hosted GitHub Actions runners in an org
 
 The menu bar shows only an Octocat icon. Clicking it checks the runners right then and shows the results; nothing runs in the background. Click a busy runner to open its job on GitHub.
 
-## Build
+## How to install
 
-Needs macOS 14+ and the Xcode Command Line Tools.
+Requires macOS 14 or later on Apple Silicon.
+
+### From a release
+
+1. Download `RunnerStatus-<version>.zip` from the [Releases](https://github.com/abh1nav/actions-runner-status/releases) page and unzip it.
+2. Move `Runner Status.app` to `/Applications`.
+3. The app is ad-hoc signed and not notarized, so macOS blocks it on first open. Clear the quarantine flag:
+
+   ```bash
+   xattr -dr com.apple.quarantine "/Applications/Runner Status.app"
+   ```
+
+4. Open the app. The Octocat icon appears in the menu bar.
+
+### From source
+
+Install the Xcode Command Line Tools (`xcode-select --install`), then:
+
+```bash
+git clone https://github.com/abh1nav/actions-runner-status.git
+cd actions-runner-status
+make install
+```
+
+`make install` builds the app, copies it to `/Applications`, and launches it.
+
+### First run
+
+1. Click the Octocat icon. Settings opens because no org is set yet.
+2. Enter your GitHub organization and click Save.
+3. Optionally, paste a token (see [Auth](#auth)) and turn on **Launch at login**.
+
+## Build
 
 ```bash
 make build    # dist/Runner Status.app + dist/RunnerStatus-<version>.zip
@@ -15,8 +47,6 @@ make clean    # remove dist/
 ```
 
 The marketing version (`CFBundleShortVersionString`) comes from `VERSION`; bump it by hand when releasing. The build number (`CFBundleVersion`) is the UTC build time (`YYYYMMDDHHMM`), so it always increases. Override it with `make build BUILD=42`.
-
-The app is ad-hoc signed, not notarized. On another Mac, clear the quarantine flag after unzipping: `xattr -dr com.apple.quarantine "Runner Status.app"`.
 
 ## Auth
 
