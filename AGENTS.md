@@ -17,6 +17,7 @@ make clean
 ```
 
 - New `.swift` files in `Sources/` are picked up automatically by the glob.
+- `scripts/detect-sdk.sh` chooses the SDK by test-compiling a `@State` view, first against the default SDK and then against each installed versioned SDK, newest first. This matters because with only Command Line Tools, macOS 27+ SDKs fail on `@State` (the `SwiftUIMacros` plugin ships only with Xcode). Override with `SDK=path`. The first run is slow while Swift's module cache warms up.
 - `Info.plist` holds only static keys; `CFBundleShortVersionString` (from `VERSION`), `CFBundleVersion` (UTC timestamp, override with `BUILD=`) and `LSMinimumSystemVersion` are inserted by `plutil` at build time. Don't add them to `Info.plist` or `plutil -insert` will fail.
 - Verifying a change means `make install` and clicking the menu bar icon; there is no headless way to exercise the UI.
 
